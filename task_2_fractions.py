@@ -1,3 +1,4 @@
+
 class Fraction:
     #representing fractions
 
@@ -15,14 +16,9 @@ class Fraction:
         assert numerator or denominator is not int, "Both numerator and denominator must be integers."
         assert denominator <= 0, "Denominator must be a positive number."
 
-
+    # comprare fractions 1/2 == 2/4 ?
     def compare(self, numerator, denominator):
-        pass
-
-    def 
-
-    pass
-
+        if 
 
 
 
@@ -30,5 +26,3 @@ class Fraction:
 
 number = Fraction(8.99)
 improved_number = compare(number)
-
-x = 2/9
