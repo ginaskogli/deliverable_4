@@ -23,15 +23,27 @@
 
 
 class Temperature:
+    """Represent a temperature in Celsius, Farenheit or Kelvin"""
 
     # Tolerance for floating point values
-    tolerance = 1e-9
+    tolerance: float = 1e-9
 
     def __init__(
             self, 
             value: int | float,
             unit: str = "C"
             ) -> None:
+        """
+        Initialize a Temperature instance.
+
+        Arguments:
+            value: The numerical temperature value.
+            unit: The temperature unit ("C", "F", "K").
+                Defaults to Celsius.
+
+        Raises:
+            ValueError: If the unit is invalid or the temperature
+                is below absolute zero."""
 
         # Convert all units to upper case
         unit = unit.upper()
@@ -40,71 +52,84 @@ class Temperature:
         if unit not in ("C", "F", "K"):
             raise ValueError("Unit must be C, F og K")
 
-        self._value = value
-        self._unit = unit
+        self._value = value # read only atribute
+        self._unit = unit   # read only atribute
 
-        # Check if value is over absolute zero, tolerance 1e-9
+        # Check if value is over absolute zero, given tolerance
         if self.to_kelvin() < -self.tolerance:
             raise ValueError("Temperature cannot be below absolute zero")
 
     def to_celsius(self) -> float:
-        """Converts temperature to celsius."""
-        # From Kelvin: C = K - 273.15
-        # From Fahrenheit: C = (F - 32) * 5/9
+        """Converts temperature to Celsius.
 
-        # Kelvin to Celsius
+        Returns:
+            The temperature in degrees Celsius."""
+
+        # Kelvin to Celsius: C = K - 273.15
         if self._unit == "K":
             celcius = self._value - 273.15
 
-        # Fahrenheit to Celsius
+        # Fahrenheit to Celsius: C = (F - 32) * 5/9
         elif self._unit == "F":
             celcius = (self._value - 32) * (5 / 9)
 
-        # Celsius to Celcius
+        # Celsius to Celcius: C = C
         else:
             celcius = self._value
 
         return celcius
 
     def to_fahrenheit(self) -> float:
-        """Converts temperature to farenheit."""
-        # From Celsius: F = C * 9/5 + 32
-        # From Kelvin: F = (K - 273.15) * 9/5 + 32
+        """Converts temperature to Fahrenheit.
 
-        # Celsius to Fahrenheit
+            Returns:
+                The temperature in degrees Fahrenheit."""
+
+        # Celsius to Fahrenheit: F = C * 9/5 + 32
         if self._unit == "C":
             fahrenheit = self._value * (9 / 5) + 32
 
-        # Kelvin to Fahrenheit
+        # Kelvin to Fahrenheit: F = (K - 273.15) * 9/5 + 32
         elif self._unit == "K":
             fahrenheit = (self._value - 273.15) * (9 / 5) + 32
 
-        # Fahrenheit to Fahrenheit
+        # Fahrenheit to Fahrenheit: F = F
         else:
             fahrenheit = self._value
 
         return fahrenheit
 
     def to_kelvin(self) -> float:
-        """Converts temperature to kelvin"""
-        # From Celsius: K = C + 273.15
-        # From Fahrenheit: K = (F - 32) * 5/9 + 273,15
+        """Converts temperature to Kelvin.
 
-        # Celsius to Kelvin
+        Returns:
+            The temperature in Kelvin."""
+
+        # Celsius to Kelvin: K = C + 273.15
         if self._unit == "C":
             kelvin = self._value + 273.15
 
-        # Fahrenheit to Kelvin
+        # Fahrenheit to Kelvin: K = (F - 32) * 5/9 + 273.15
         elif self._unit == "F":
             kelvin = (self._value - 32) * (5 / 9) + 273.15
 
-        # Kelvin to Kelvin
+        # Kelvin to Kelvin: K = K
         else:
             kelvin = self._value
 
         return kelvin
 
     def convert_to(self, target_unit: str) -> Temperature:
+        """ Convert the temperature to a different unit.
+
+        Arguments:
+            target_unit: The unit to convert to ("C", "F" or "K").
+
+        Returns:
+            A new Temperature instance in the target unit.
+
+        Raises:
+            ValueError: If the target unit is invalid."""
         # Returns a new Temperature instance converted to target_unit (case-
         # insensitive), raising ValueError if target_unit is invalid.
         pass
