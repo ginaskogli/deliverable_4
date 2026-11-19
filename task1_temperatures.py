@@ -1,5 +1,5 @@
 # Temperature class - supporting C, F, K
-# initialised bt value and unit 
+# initialised bt value and unit
 #     raise ValueError if not c, f, k or temperature under absolute zero (0K)
 # tolerance 1e-9 for floats
 # expose value and unit as read only attributes
@@ -21,16 +21,20 @@
 # Returns a new Temperature instance converted to target_unit (case-
 # insensitive), raising ValueError if target_unit is invalid.
 
-from typing import Literal
-
 
 class Temperature:
 
+    # Tolerance for floating point values
+    tolerance = 1e-9
+
     def __init__(
             self, 
-            value: int | float, 
-            unit: Literal["C", "F", "K"]
+            value: int | float,
+            unit: str = "C"
             ) -> None:
+
+        # Convert all units to upper case
+        unit = unit.upper()
 
         # Check if a valid unit is given
         if unit not in ("C", "F", "K"):
@@ -39,7 +43,9 @@ class Temperature:
         self._value = value
         self._unit = unit
 
-        # Check if value is over absolute zero
+        # Check if value is over absolute zero, tolerance 1e-9
+        if self.to_kelvin() < -self.tolerance:
+            raise ValueError("Temperature cannot be below absolute zero")
 
     def to_celsius(self) -> float:
         """Converts temperature to celsius."""
@@ -103,7 +109,7 @@ class Temperature:
         # insensitive), raising ValueError if target_unit is invalid.
         pass
 
-tempK = Temperature(300, "K")
+tempK = Temperature(0, "K")
 print(tempK.to_celsius())
 
 tempC = Temperature(300, "C")
