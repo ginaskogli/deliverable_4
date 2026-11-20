@@ -1,3 +1,4 @@
+import math
 
 class Fraction:
     #representing fractions
@@ -40,9 +41,25 @@ class Fraction:
     
     def __ge__(self, other):
         return self.numerator*other.denominator >= other.numerator*self.denominator
-    
+
+"""    
     def __add__(self, other):
-        
+        x = (self.numerator*other.denominator)+(other.numerator*self.denominator)
+        y = self.denominator*other.denominator
+
+        lcm = abs(x * y) // math.gcd(x, y)
+
+        num = int(x/lcm)
+        denom = int(y/lcm)
+
+        return (num, denom)
+"""
+    def __add__(self, other):
+        lcm = abs(self.denominator * other.denominator) // math.gcd(self.denominator, other.denominator)
+        num = (self.numerator*(lcm/self.denominator))+(other.numerator*(lcm/other.denominator))
+
+        return (num, lcm)
+
 # def __radd__(self, other):
 # def __sub__(self, other):
 # def __rsub__(self, other):
@@ -52,6 +69,7 @@ your_number = Fraction(1, 4)
 
 #print(my_number == your_number)
 #print(your_number<my_number)
+print(my_number+your_number)
 
 
 
