@@ -13,16 +13,50 @@ class Fraction:
         self.numerator = numerator
         self.denominator = denominator
 
-        assert numerator or denominator is not int, "Both numerator and denominator must be integers."
-        assert denominator <= 0, "Denominator must be a positive number."
+        # bytt til exeptions:
+        if not isinstance(numerator, int):
+            raise TypeError("Numerator must be integer.")
 
-    # comprare fractions 1/2 == 2/4 ?
-    def compare(self, numerator, denominator):
-        if 
+        if not isinstance(denominator, int):
+            raise TypeError("Denominator must be integer.")
+
+        if denominator <= 0:
+            raise ValueError("Denominator must be a positive number.")
+        
+    def __eq__(self, other):
+        return self.numerator*other.denominator == other.numerator*self.denominator
+
+    def __ne__(self, other):
+        return self.numerator*other.denominator != other.numerator*self.denominator
+    
+    def __lt__(self, other): 
+        return self.numerator*other.denominator < other.numerator*self.denominator
+
+    def __le__(self, other):
+        return self.numerator*other.denominator <= other.numerator*self.denominator
+    
+    def __gt__(self, other):
+        return self.numerator*other.denominator > other.numerator*self.denominator
+    
+    def __ge__(self, other):
+        return self.numerator*other.denominator >= other.numerator*self.denominator
+    
+    def __add__(self, other):
+        
+# def __radd__(self, other):
+# def __sub__(self, other):
+# def __rsub__(self, other):
+
+my_number = Fraction(1, 2)
+your_number = Fraction(1, 4)
+
+#print(my_number == your_number)
+#print(your_number<my_number)
 
 
 
 
 
-number = Fraction(8.99)
-improved_number = compare(number)
+
+
+
