@@ -29,7 +29,7 @@ class Temperature:
     tolerance: float = 1e-9
 
     def __init__(
-            self, 
+            self,
             value: int | float,
             unit: str = "C"
             ) -> None:
@@ -52,8 +52,8 @@ class Temperature:
         if unit not in ("C", "F", "K"):
             raise ValueError("Unit must be C, F og K")
 
-        self._value = value # read only atribute
-        self._unit = unit   # read only atribute
+        self._value = value     # read only atribute
+        self._unit = unit       # read only atribute
 
         # Check if value is over absolute zero, given tolerance
         if self.to_kelvin() < -self.tolerance:
@@ -132,13 +132,27 @@ class Temperature:
             ValueError: If the target unit is invalid."""
         # Returns a new Temperature instance converted to target_unit (case-
         # insensitive), raising ValueError if target_unit is invalid.
-        pass
 
-tempK = Temperature(0, "K")
-print(tempK.to_celsius())
+        # Converts target unit to upper case
+        target_unit = target_unit.upper()
 
-tempC = Temperature(300, "C")
-print(tempC.to_fahrenheit())
+        if target_unit == "C":
+            new_value = self.to_celsius()
+        elif target_unit == "F":
+            new_value = self.to_fahrenheit()
+        elif target_unit == "K":
+            new_value = self.to_kelvin()
+        else:
+            raise ValueError("Invalid unit, unit must be C, F or K.")
 
-tempF = Temperature(300, "F")
-print(tempF.to_kelvin())
+        return Temperature(new_value, target_unit)
+
+
+tempk = Temperature(0, "K")
+print(tempk.to_celsius())
+
+tempc = Temperature(300, "C")
+print(tempk.to_fahrenheit())
+
+tempf = Temperature(300, "F")
+print(tempf.to_kelvin())
