@@ -172,7 +172,41 @@ class Temperature:
         return f"{self._value:.2f} {unit_symbol}"
 
 
-temp = Temperature(25, "C")
+# Contain all six comparisons (==, !=, <, <=, >, >=) so temperatures can be compared across 
+# different units (`Temperature(0, "C") == Temperature(32, "F")`). 
+# Should return `NotImplemented` if a `Temperature` instance is compared to a non-Temperature instance.
+
+    # Comparison functions
+    # kan lage en felles hjelpefunskjon
+    # har ferdige funksjoner for sammenlikning inkludert i python
+
+    # == equal to
+    def __eq__(self, value):
+        pass
+
+    # != not equal to
+    def __ne__(self, value):
+        pass
+
+    # < less than
+    def __lt__(self, other):
+        pass
+
+    # <= less than or equal to
+    def __le__(self, other):
+        pass
+
+    # > greater than
+    def __gt__(self, other):
+        pass
+
+    # >= greater than or equal
+    def __ge__(self, other):
+        pass
+
+
+
+temp = Temperature(7, "K")
 
 print(repr(temp))
 print(str(temp))
