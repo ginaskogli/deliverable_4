@@ -120,7 +120,8 @@ class Temperature:
         return kelvin
 
     def convert_to(self, target_unit: str) -> Temperature:
-        """ Convert the temperature to a different unit.
+        """ Convert the temperature to a different unit,
+        by taking in a target unit, it returns a new temperature instanse.
 
         Arguments:
             target_unit: The unit to convert to ("C", "F" or "K").
@@ -147,12 +148,41 @@ class Temperature:
 
         return Temperature(new_value, target_unit)
 
+    def __repr__(self) -> str:
+        """Return an unambiguous string representation of the Temperature object.
 
-tempk = Temperature(0, "K")
-print(tempk.to_celsius())
+        Returns:
+            str: A string that represents the object, including its value
+            and unit, for example Temperature(25, "C)."""
+        return f"Temperature({self._value}, \"{self._unit}\")"
 
-tempc = Temperature(300, "C")
-print(tempk.to_fahrenheit())
+    def __str__(self) -> str:
+        """Return a human-readable representation of the temperature.
 
-tempf = Temperature(300, "F")
-print(tempf.to_kelvin())
+        The temperature value is formatted to two decimal places.
+        Celsius and Fahrenheit include a degree symbol, while Kelvin
+        is written without one.
+
+        Returns:
+            str: A formatted temperature, for eksample "25.00 °C"""
+
+        # Adds the degree symbol to Celsius and Fahrenheit
+        unit_symbol = f"°{self._unit}" if self._unit in ("C", "F") else "K"
+
+        return f"{self._value:.2f} {unit_symbol}"
+
+
+temp = Temperature(25, "C")
+
+print(repr(temp))
+print(str(temp))
+print(temp)
+
+# tempk = Temperature(0, "K")
+# print(tempk.to_celsius())
+
+# tempc = Temperature(300, "C")
+# print(tempk.to_fahrenheit())
+
+# tempf = Temperature(300, "F")
+# print(tempf.to_kelvin())
