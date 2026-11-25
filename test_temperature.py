@@ -16,7 +16,7 @@ import pytest
 from task1_temperatures import Temperature
 
 
-# Testing the initialization
+# 1. Initialization: Default unit, case-insensitive units, and read-only behavior.
 def test_initialization():
     temp = Temperature(25, "C")
 
@@ -32,11 +32,13 @@ def test_default_unit():
 
 
 def test_case_insensitive_units():
-    temp_lower = Temperature(25, "c")
-    temp_upper = Temperature(25, "C")
+    temp_c = Temperature(25, "c")
+    temp_f = Temperature(77, "f")
+    temp_k = Temperature(298.15, "k")
 
-    assert temp_lower.unit == "C"
-    assert temp_lower.value == temp_upper.value
+    assert temp_c.unit == "C"
+    assert temp_f.unit == "F"
+    assert temp_k.unit == "K"
 
 
 def test_read_only_attributes():
@@ -50,3 +52,23 @@ def test_read_only_attributes():
     with pytest.raises(AttributeError):
         temp.unit = "F"
 
+
+# 2. Validation: Invalid unit strings and temperatures below absolute zero in "C", "F", and "K".
+def test_invalid_units():
+    invalid_units = ["X", "celsius", ""]
+
+    for unit in invalid_units:
+        with pytest.raises(ValueError):
+            Temperature(25, unit)
+
+
+def test_below_absolute_zero():
+    invalid_temperatures = [
+        (-274, "C"),
+        (-461, "F"),
+        (-1, "K")
+    ]
+
+    for value, unit in invalid_temperatures:
+        with pytest.raises(ValueError):
+            Temperature(value, unit)
