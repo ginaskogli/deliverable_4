@@ -1,24 +1,11 @@
-# Write a `test_temperature.py` script that imports the `Temperature` class and uses pytest for the following tests:
-# 1. Initialization: Default unit, case-insensitive units, and read-only behavior.
-# 2. Validation: Invalid unit strings and temperatures below absolute zero in "C", "F", and "K".
-# 3. Conversions: Test conversion accuracy across reference points:
-#     * Absolute zero ($-273.15^\circ\text{C} = -459.67^\circ\text{F} = 0\text{ K}$)
-#     * Celsius–Fahrenheit crossover ($-40^\circ\text{C} = -40^\circ\text{F} = 233.15\text{ K}$)
-#     * Freezing point of water ($0^\circ\text{C} = 32^\circ\text{F} = 273.15\text{ K}$)
-#     * Human body temperature ($37^\circ\text{C} = 98.6^\circ\text{F} = 310.15\text{ K}$)
-#     * Boiling point of water ($100^\circ\text{C} = 212^\circ\text{F} = 373.15\text{ K}$)
-# 4. Round-trip conversions: Converting "C" -> "F" -> "K" -> "C" reproduces the original Temperature.
-# 5. Cross-unit comparisons: Equality and ordering (<, <=, >, >=) across mixed units.
-# 6. Formatting: Outputs of `str()` and `repr()`
-
 import pytest
-import operator
 
 from task1_temperatures import Temperature
 
 
 # 1. Initialization: Default unit, case-insensitive units, and read-only behavior.
 def test_initialization():
+    """Test initialization with an explicitly provided unit."""
     temp = Temperature(25, "C")
 
     assert temp.value == 25
@@ -26,6 +13,7 @@ def test_initialization():
 
 
 def test_default_unit():
+    """Test that celsius is the default unit."""
     temp = Temperature(25)
 
     assert temp.value == 25
@@ -33,6 +21,7 @@ def test_default_unit():
 
 
 def test_case_insensitive_units():
+    """Test that units are case-insensitive."""
     temp_c = Temperature(25, "c")
     temp_f = Temperature(77, "f")
     temp_k = Temperature(298.15, "k")
@@ -43,7 +32,7 @@ def test_case_insensitive_units():
 
 
 def test_read_only_attributes():
-    """Testing the the read only attributes."""
+    """Test that value and unit attributes are read-only."""
     temp = Temperature(25, "C")
 
     # Testing the ability to change the temperature value
@@ -56,6 +45,7 @@ def test_read_only_attributes():
 
 # 2. Validation: Invalid unit strings and temperatures below absolute zero in "C", "F", and "K".
 def test_invalid_units():
+    """Test that invalid unit strings raise ValueError."""
     invalid_units = ["X", "celsius", ""]
 
     for unit in invalid_units:
@@ -64,6 +54,7 @@ def test_invalid_units():
 
 
 def test_below_absolute_zero():
+    """Test that temperatures below absolute zero raise ValueError."""
     invalid_temperatures = [
         (-274, "C"),
         (-461, "F"),
@@ -76,12 +67,11 @@ def test_below_absolute_zero():
 
 
 # 3. Conversions: Test conversion accuracy across reference points:
-#     * Absolute zero ($-273.15^\circ\text{C} = -459.67^\circ\text{F} = 0\text{ K}$)
-#     * Celsius–Fahrenheit crossover ($-40^\circ\text{C} = -40^\circ\text{F} = 233.15\text{ K}$)
-#     * Freezing point of water ($0^\circ\text{C} = 32^\circ\text{F} = 273.15\text{ K}$)
-#     * Human body temperature ($37^\circ\text{C} = 98.6^\circ\text{F} = 310.15\text{ K}$)
-#     * Boiling point of water ($100^\circ\text{C} = 212^\circ\text{F} = 373.15\text{ K}$)
-
+#     * Absolute zero (-273.15 C = -459.67 F = 0 K
+#     * Celsius–Fahrenheit crossover -40 C = -40 F = 233.15 K
+#     * Freezing point of water 0 C = 32 F = 273.15
+#     * Human body temperature 37 C = 98.6 F = 310.15 K
+#     * Boiling point of water 100 C = 212 F = 373.15 K
 
 @pytest.mark.parametrize(
     "value, expected_f, expected_k",
@@ -93,7 +83,7 @@ def test_below_absolute_zero():
         [100, 212, 373.15]
     ]
 )
-def test_conversios(value, expected_f, expected_k):
+def test_conversions(value, expected_f, expected_k):
     """Testing convertion between different referance values.
     Using abs which is the absolute tolerance allowed, and rel the relative toleranse is sett to 0."""
 
@@ -105,8 +95,10 @@ def test_conversios(value, expected_f, expected_k):
 
 
 # 4. Round-trip conversions: Converting "C" -> "F" -> "K" -> "C" reproduces the original Temperature.
+
 @pytest.mark.parametrize("start_value", [-40, 25, 100])
 def test_round_trip_conversions(start_value):
+    """Test round-trip conversion from Celsius to Fahrenheit, Kelvin and back to Celsius."""
     temp_c = Temperature(start_value, "C")
 
     temp_f = temp_c.convert_to("F")
@@ -117,53 +109,54 @@ def test_round_trip_conversions(start_value):
 
 
 # 5. Cross-unit comparisons: Equality and ordering (<, <=, >, >=) across mixed units.
+
 def test_comparisons():
+    """Test all six comparison operators using Celsius temperatures."""
     temp_1 = Temperature(20, "C")
     temp_2 = Temperature(25, "C")
 
     # Testing equality and inequality
     assert (temp_1 == temp_2) is False
-    assert (temp_1 != temp_2) is True
+    assert temp_1 != temp_2
 
     # Testing ordering
-    assert (temp_1 < temp_2) is True
-    assert (temp_1 <= temp_2) is True
+    assert temp_1 < temp_2
+    assert temp_1 <= temp_2
     assert (temp_1 > temp_2) is False
     assert (temp_1 >= temp_2) is False
-    assert (temp_2 > temp_1) is True
-    assert (temp_2 >= temp_1) is True
+    assert temp_2 > temp_1
+    assert temp_2 >= temp_1
 
 
 def test_cross_unit_comparisons():
     """Test comparisons between different temperature units."""
-    # Testing equality/inequality
     temp_c = Temperature(0, "C")
     temp_f = Temperature(32, "F")
 
-    assert (temp_c == temp_f) is True
+    assert temp_c == temp_f
     assert (temp_c != temp_f) is False
-    assert (temp_c <= temp_f) is True
+    assert temp_c <= temp_f
 
     # 20 C is higher than 50 F
     temp_c = Temperature(20, "C")
     temp_f = Temperature(50, "F")
 
-    assert (temp_c > temp_f) is True
+    assert temp_c > temp_f
     assert (temp_c < temp_f) is False
-    assert (temp_c >= temp_f) is True
+    assert temp_c >= temp_f
     assert (temp_c <= temp_f) is False
 
     temp_k = Temperature(0, "K")
     temp_c = Temperature(-273.15, "C")
 
-    assert (temp_k == temp_c) is True
-    assert (temp_k >= temp_c) is True
+    assert temp_k == temp_c
+    assert temp_k >= temp_c
     assert (temp_k != temp_c) is False
-    assert (temp_k <= temp_c) is True
+    assert temp_k <= temp_c
 
 @pytest.mark.parametrize("other", [20, 20.0, "20", "", None])
 def test_comparisons_with_other_types(other):
-    """Test comparisons with objects that are not Temparature."""
+    """Test that comparison methods return NotImplemented for orher types."""
     temp = Temperature(20, "C")
 
     assert temp.__eq__(other) is NotImplemented
@@ -173,3 +166,26 @@ def test_comparisons_with_other_types(other):
     assert temp.__gt__(other) is NotImplemented
     assert temp.__ge__(other) is NotImplemented
 
+
+# 6. Formatting: Outputs of str() and repr()
+
+def test_str():
+    """Test the human-readable string representation of temperature."""
+    temp_c = Temperature(25, "C")
+    temp_f = Temperature(77, "F")
+    temp_k = Temperature(300, "K")
+
+    assert str(temp_c) == "25.00 °C"
+    assert str(temp_f) == "77.00 °F"
+    assert str(temp_k) == "300.00 K"
+
+
+def test_repr():
+    """Test the unambiguous representation of Temperature."""
+    temp_c = Temperature(25, "C")
+    temp_f = Temperature(77, "F")
+    temp_k = Temperature(300, "K")
+
+    assert repr(temp_c) == 'Temperature(25, "C")'
+    assert repr(temp_f) == 'Temperature(77, "F")'
+    assert repr(temp_k) == 'Temperature(300, "K")'
