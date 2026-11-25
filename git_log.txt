@@ -1,0 +1,48 @@
+*   78c3fea - Gina Skogli, in the future : fix pep8
+|\  
+| * d8ae825 - Ellen Alnes Nygard, 36 minutes ago : smal formatting changes, added and deleted witespace
+* | 8a81d32 - Gina Skogli, 26 minutes ago : fixed pep8
+|/  
+* ee89a42 - Gina Skogli, 39 minutes ago : fix in task 2
+* ad22e65 - Ellen Alnes Nygard, 45 minutes ago : added pytest task 1 and git repo to notebook
+*   0485f03 - ginaskogli, 53 minutes ago : Merge pull request #3 from ginaskogli/notebook_gina
+|\  
+| * 8360e6c - Gina Skogli, 52 minutes ago : output in notebook
+| * 133108f - Gina Skogli, 3 hours ago : created notebook for test outputs
+* |   2b67f6d - EllenAlnes, 57 minutes ago : Merge pull request #2 from ginaskogli/task1
+|\ \  
+| * | 7381358 - Ellen Alnes Nygard, 60 minutes ago : the task file
+| * | b18e478 - Ellen Alnes Nygard, 61 minutes ago : fixed comments and dock strings
+| * | c2916b3 - Ellen Alnes Nygard, 89 minutes ago : finished the tests, and cleand upp the code
+| * | fd22bb6 - Ellen Alnes Nygard, 2 hours ago : written three functions for testing equality and ordering
+| * | 4b9d7e7 - Ellen Alnes Nygard, 3 hours ago : roundtrip conversion test
+| * | 0e22f32 - Ellen Alnes Nygard, 4 hours ago : added tests for validation, invalid units and invalid temperatures
+| * | 83528e2 - Ellen Alnes Nygard, 5 hours ago : added tests for initialization
+| * | 642f5d7 - Ellen Alnes Nygard, 7 hours ago : created file and added task, and imported temperature class
+| * | 5294666 - Ellen Alnes Nygard, 7 hours ago : added @property functions for value and unit to make them read only
+| * | da95b90 - Ellen Alnes Nygard, 30 hours ago : added comparison functions, short test
+| * | 95d4412 - Ellen Alnes Nygard, 32 hours ago : added tha head of the special functions for comparrisons
+| * | ab36089 - Ellen Alnes Nygard, 32 hours ago : added repr and str functions
+| * | 468dfc5 - Ellen Alnes Nygard, 2 days ago : added convert to function
+| * | 3c5fcc2 - Ellen Alnes Nygard, 6 days ago : added doc strings and type hints to the functions, and class
+| * | 7be5719 - Ellen Alnes Nygard, 6 days ago : added tolerance and absolute zero controll
+| * | aef7c31 - Ellen Alnes Nygard, 6 days ago : convertions to celsius, fahrenheit and kelvin implimented
+| * | a17dfc0 - Ellen Alnes Nygard, 6 days ago : basic to celsius, and init
+| * | 20993ee - Ellen Alnes Nygard, 7 days ago : added task file, and start of functions
+* | |   fe163b3 - ginaskogli, 4 hours ago : Merge pull request #1 from ginaskogli/task_2
+|\ \ \  
+| |/ /  
+|/| /   
+| |/    
+| * b959f65 - Gina Skogli, 4 hours ago : test file with all tests done + improves methods in fraction class
+| * 32369e3 - Gina Skogli, 5 days ago : all ten magic methods
+| * 2676e48 - Gina Skogli, 5 days ago : add method
+| * 5a1adab - Gina Skogli, 5 days ago : comparison methods
+| * 7504501 - Gina Skogli, 7 days ago : class test_fraction
+| * 76bb8c1 - Gina Skogli, 7 days ago : fix
+| * d3d1a2e - Gina Skogli, 7 days ago : class fraction initialiser + made testfile
+* | 25c76b9 - Ellen Alnes Nygard, 7 days ago : added task file
+* | f4289ef - Ellen Alnes Nygard, 7 days ago : renamed file
+|/  
+* c38bafc - Gina Skogli, 9 days ago : startup files
+* 145c2f1 - ginaskogli, 9 days ago : Initial commit
