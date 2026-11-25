@@ -12,6 +12,7 @@
 # 6. Formatting: Outputs of `str()` and `repr()`
 
 import pytest
+import operator
 
 from task1_temperatures import Temperature
 
@@ -116,3 +117,59 @@ def test_round_trip_conversions(start_value):
 
 
 # 5. Cross-unit comparisons: Equality and ordering (<, <=, >, >=) across mixed units.
+def test_comparisons():
+    temp_1 = Temperature(20, "C")
+    temp_2 = Temperature(25, "C")
+
+    # Testing equality and inequality
+    assert (temp_1 == temp_2) is False
+    assert (temp_1 != temp_2) is True
+
+    # Testing ordering
+    assert (temp_1 < temp_2) is True
+    assert (temp_1 <= temp_2) is True
+    assert (temp_1 > temp_2) is False
+    assert (temp_1 >= temp_2) is False
+    assert (temp_2 > temp_1) is True
+    assert (temp_2 >= temp_1) is True
+
+
+def test_cross_unit_comparisons():
+    """Test comparisons between different temperature units."""
+    # Testing equality/inequality
+    temp_c = Temperature(0, "C")
+    temp_f = Temperature(32, "F")
+
+    assert (temp_c == temp_f) is True
+    assert (temp_c != temp_f) is False
+    assert (temp_c <= temp_f) is True
+
+    # 20 C is higher than 50 F
+    temp_c = Temperature(20, "C")
+    temp_f = Temperature(50, "F")
+
+    assert (temp_c > temp_f) is True
+    assert (temp_c < temp_f) is False
+    assert (temp_c >= temp_f) is True
+    assert (temp_c <= temp_f) is False
+
+    temp_k = Temperature(0, "K")
+    temp_c = Temperature(-273.15, "C")
+
+    assert (temp_k == temp_c) is True
+    assert (temp_k >= temp_c) is True
+    assert (temp_k != temp_c) is False
+    assert (temp_k <= temp_c) is True
+
+@pytest.mark.parametrize("other", [20, 20.0, "20", "", None])
+def test_comparisons_with_other_types(other):
+    """Test comparisons with objects that are not Temparature."""
+    temp = Temperature(20, "C")
+
+    assert temp.__eq__(other) is NotImplemented
+    assert temp.__ne__(other) is NotImplemented
+    assert temp.__lt__(other) is NotImplemented
+    assert temp.__le__(other) is NotImplemented
+    assert temp.__gt__(other) is NotImplemented
+    assert temp.__ge__(other) is NotImplemented
+
