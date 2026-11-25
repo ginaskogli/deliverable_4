@@ -2,7 +2,7 @@
 import math
 
 class Fraction:
-    #representing fractions
+    # Representing fractions
 
     def __init__(self, numerator: int, denominator: int) -> None:
         """
@@ -12,7 +12,6 @@ class Fraction:
 
         """
 
-        # bytt til exeptions?:
         if not isinstance(numerator, int):
             raise TypeError("Numerator must be integer.")
 
@@ -32,11 +31,6 @@ class Fraction:
         """
         Returns True if self is equal to other.
         """
-        # ved int - True dersom ?
-        #if (isinstance(other, int)):
-        #    pass
-        #else:
-            #return self.numerator*other.denominator == other.numerator*self.denominator
         return self.numerator*other.denominator == other.numerator*self.denominator
     
     def __ne__(self, other) -> None:
