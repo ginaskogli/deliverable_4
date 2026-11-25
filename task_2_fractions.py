@@ -26,7 +26,7 @@ class Fraction:
 
         self.numerator = numerator // g
         self.denominator = denominator // g
-        
+
     def __eq__(self, other) -> None:
         """
         Returns True if self is equal to other.
@@ -86,5 +86,5 @@ class Fraction:
     def __truediv__(self, other) -> "Fraction":
         """
         Returns Fraction object of self devided by other.
-        """ 
+        """
         return Fraction(self.numerator * other.denominator, self.denominator * other.numerator)
