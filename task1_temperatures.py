@@ -31,8 +31,8 @@ class Temperature:
         if unit not in ("C", "F", "K"):
             raise ValueError("Unit must be C, F og K")
 
-        self._value = value     # read only atribute
-        self._unit = unit       # read only atribute
+        self._value = value
+        self._unit = unit
 
         # Check if value is over absolute zero, given tolerance
         if self.to_kelvin() < -self.tolerance:
@@ -40,12 +40,21 @@ class Temperature:
 
     @property
     def value(self) -> float:
-        """Return the temperature value, as a read only atribute."""
+        """Return the numerical temperature value.
+
+        Returns:
+            The temperature value in the unit specified by the
+            unit attribute. This property is read-only."""
+
         return self._value
 
     @property
     def unit(self) -> str:
-        """Return the temperature unit, as a read only atribute."""
+        """Return the temperature unit.
+
+        Returns:
+            The temperature unit as a string ("C", "F, or "K").
+            This property is read-only."""
         return self._unit
 
     def to_celsius(self) -> float:
@@ -54,15 +63,12 @@ class Temperature:
         Returns:
             The temperature in degrees Celsius."""
 
-        # Kelvin to Celsius: C = K - 273.15
         if self._unit == "K":
             celcius = self._value - 273.15
 
-        # Fahrenheit to Celsius: C = (F - 32) * 5/9
         elif self._unit == "F":
             celcius = (self._value - 32) * (5 / 9)
 
-        # Celsius to Celcius: C = C
         else:
             celcius = self._value
 
@@ -74,15 +80,12 @@ class Temperature:
             Returns:
                 The temperature in degrees Fahrenheit."""
 
-        # Celsius to Fahrenheit: F = C * 9/5 + 32
         if self._unit == "C":
             fahrenheit = self._value * (9 / 5) + 32
 
-        # Kelvin to Fahrenheit: F = (K - 273.15) * 9/5 + 32
         elif self._unit == "K":
             fahrenheit = (self._value - 273.15) * (9 / 5) + 32
 
-        # Fahrenheit to Fahrenheit: F = F
         else:
             fahrenheit = self._value
 
@@ -94,15 +97,12 @@ class Temperature:
         Returns:
             The temperature in Kelvin."""
 
-        # Celsius to Kelvin: K = C + 273.15
         if self._unit == "C":
             kelvin = self._value + 273.15
 
-        # Fahrenheit to Kelvin: K = (F - 32) * 5/9 + 273.15
         elif self._unit == "F":
             kelvin = (self._value - 32) * (5 / 9) + 273.15
 
-        # Kelvin to Kelvin: K = K
         else:
             kelvin = self._value
 
@@ -120,8 +120,6 @@ class Temperature:
 
         Raises:
             ValueError: If the target unit is invalid."""
-        # Returns a new Temperature instance converted to target_unit (case-
-        # insensitive), raising ValueError if target_unit is invalid.
 
         # Converts target unit to upper case
         target_unit = target_unit.upper()
@@ -142,7 +140,7 @@ class Temperature:
 
         Returns:
             str: A string that represents the object, including its value
-            and unit, for example Temperature(25, "C)."""
+            and unit, for example Temperature(25, "C")."""
         return f"Temperature({self._value}, \"{self._unit}\")"
 
     def __str__(self) -> str:
@@ -160,23 +158,33 @@ class Temperature:
 
         return f"{self._value:.2f} {unit_symbol}"
 
-# Contain all six comparisons (==, !=, <, <=, >, >=) so temperatures can be compared across 
-# different units (`Temperature(0, "C") == Temperature(32, "F")`). 
-# Should return `NotImplemented` if a `Temperature` instance is compared to a non-Temperature instance.
-
-    # Comparison functions
-    # kan lage en felles hjelpefunskjon
-    # har ferdige funksjoner for sammenlikning inkludert i python
-
-    # for å sammenlikne må vi konvertere til en felles enhet - velger kelvin
     def compare_help(self, other: object) -> tuple[float, float] | NotImplementedType:
+        """Convert two Temperature instances to Kelvin for comparison.
+
+        Arguments:
+            other: the oject to compare with self.
+
+        Returns:
+            A tuple containing both temperatures in Kelvin.
+
+        Returns NotImplemented if other is not at Temperature instance. """
         if not isinstance(other, Temperature):
             return NotImplemented
         return self.to_kelvin(), other.to_kelvin()
 
-    # == equal to
     def __eq__(self, other) -> bool | NotImplementedType:
-        """Compare two temperatures for equality."""
+        """Check whether two temperatures are equal.
+        Temperatures are converted to Kelvin before comparison.
+        A tolerance is used to account for floating-point precision.
+
+        Arguments:
+            other: The temperature to compare with self.
+
+        Returns:
+            True if the temperature are equal within the defined
+            tolerance, otherwise False.
+
+            Returns NotImplemented if other is not a temperature instance."""
 
         comparison = self.compare_help(other)
 
@@ -188,9 +196,19 @@ class Temperature:
         # The absolute difference is less than og equal to the tolerance
         return abs(self_kelvin - other_kelvin) <= self.tolerance
 
-    # != not equal to
     def __ne__(self, other) -> bool | NotImplementedType:
-        """Compare two temperatures for none equality."""
+        """Compare two temperatures for none equality.
+        Temperatures are converted to Kelvin before comparison.
+        A tolerance is used to account for floating-point precision.
+
+        Arguments:
+            other: The temperature to compare with self.
+
+        Returns:
+            True if the temperature differ by more than the defined
+            tolerance, otherwise False.
+
+            Returns NotImplemented if other is not a temperature instance."""
 
         comparison = self.compare_help(other)
 
@@ -202,10 +220,17 @@ class Temperature:
         # The absolute difference is greater than the tolerance
         return abs(self_kelvin - other_kelvin) > self.tolerance
 
-    # < less than
     def __lt__(self, other) -> bool | NotImplementedType:
-        """Compare two temperatures, is one less than the other."""
+        """ Check whether this temperature is less than another temperature.
+        Both temperatures are converted to Kelvin before comparison.
 
+        Argumentss:
+            other: The temperature to compare with self.
+
+        Returns:
+            True if self is less than other, otherwise False.
+
+            Returns NotImplemented if other is not a Temperature instance."""
         comparison = self.compare_help(other)
 
         if comparison is NotImplemented:
@@ -216,9 +241,17 @@ class Temperature:
         # Is self less than other
         return self_kelvin < other_kelvin
 
-    # <= less than or equal to
     def __le__(self, other) -> bool | NotImplementedType:
-        """Compare two temperatures, is one less than or equal to the other."""
+        """Check whether this temperature is less than or equal to another.
+        Both temperatures are converted to Kelvin before comparison.
+
+        Arguments:
+            other: The temperature to compare with self.
+
+        Returns:
+            True if self is less than or equal to other, otherwise False.
+
+            Returns NotImplemented if other is not a Temperature instance."""
 
         comparison = self.compare_help(other)
 
@@ -230,10 +263,17 @@ class Temperature:
         # Is self less than or equal to the other
         return self_kelvin <= other_kelvin
 
-    # > greater than
     def __gt__(self, other) -> bool | NotImplementedType:
-        """Compare two temperatures, is one greater than the other."""
+        """Check whether this temperature is greater than another temperature.
+        Both temperatures are converted to Kelvin before comparison.
 
+        Arguments:
+            other: The temperature to compare with self.
+
+        Returns:
+            True if self is greater than other, otherwise False.
+
+            Returns NotImplemented if other is not a Temperature instance."""
         comparison = self.compare_help(other)
 
         if comparison is NotImplemented:
@@ -244,9 +284,17 @@ class Temperature:
         # Is self greater than other
         return self_kelvin > other_kelvin
 
-    # >= greater than or equal
     def __ge__(self, other) -> bool | NotImplementedType:
-        """Compare two temperatures, is one greater than or equal to the other."""
+        """Check whether this temperature is greater than or equal to another.
+        Both temperatures are converted to Kelvin before comparison.
+
+        Arguments:
+            other: The temperature to compare with self.
+
+        Returns:
+            True if self is greater than or equal to other, otherwise False.
+
+            Returns NotImplemented if other is not a Temperature instance."""
 
         comparison = self.compare_help(other)
 
@@ -257,31 +305,3 @@ class Temperature:
 
         # Is self greater than or equal to the other
         return self_kelvin >= other_kelvin
-
-
-temp1 = Temperature(0, "C")
-temp2 = Temperature(32, "F")
-temp3 = Temperature(100, "C")
-
-print(temp1 == temp2)  # True
-print(temp1 != temp3)  # True
-print(temp1 < temp3)   # True
-print(temp1 <= temp2)  # True
-print(temp3 > temp1)   # True
-print(temp3 >= temp1)  # True
-
-print(temp1 == 25)
-# temp = Temperature(7, "K")
-
-# print(repr(temp))
-# print(str(temp))
-# print(temp)
-
-# tempk = Temperature(0, "K")
-# print(tempk.to_celsius())
-
-# tempc = Temperature(300, "C")
-# print(tempk.to_fahrenheit())
-
-# tempf = Temperature(300, "F")
-# print(tempf.to_kelvin())
