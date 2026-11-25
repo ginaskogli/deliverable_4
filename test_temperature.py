@@ -72,3 +72,47 @@ def test_below_absolute_zero():
     for value, unit in invalid_temperatures:
         with pytest.raises(ValueError):
             Temperature(value, unit)
+
+
+# 3. Conversions: Test conversion accuracy across reference points:
+#     * Absolute zero ($-273.15^\circ\text{C} = -459.67^\circ\text{F} = 0\text{ K}$)
+#     * Celsius–Fahrenheit crossover ($-40^\circ\text{C} = -40^\circ\text{F} = 233.15\text{ K}$)
+#     * Freezing point of water ($0^\circ\text{C} = 32^\circ\text{F} = 273.15\text{ K}$)
+#     * Human body temperature ($37^\circ\text{C} = 98.6^\circ\text{F} = 310.15\text{ K}$)
+#     * Boiling point of water ($100^\circ\text{C} = 212^\circ\text{F} = 373.15\text{ K}$)
+
+
+@pytest.mark.parametrize(
+    "value, expected_f, expected_k",
+    [
+        [-273.15, -459.67, 0],
+        [-40, -40, 233.15],
+        [0, 32, 273.15],
+        [37, 98.6, 310.15],
+        [100, 212, 373.15]
+    ]
+)
+def test_conversios(value, expected_f, expected_k):
+    """Testing convertion between different referance values.
+    Using abs which is the absolute tolerance allowed, and rel the relative toleranse is sett to 0."""
+
+    temp = Temperature(value, "C")
+
+    assert temp.to_celsius() == pytest.approx(value, abs=Temperature.tolerance, rel=0)
+    assert temp.to_fahrenheit() == pytest.approx(expected_f, abs=Temperature.tolerance, rel=0)
+    assert temp.to_kelvin() == pytest.approx(expected_k, abs=Temperature.tolerance, rel=0)
+
+
+# 4. Round-trip conversions: Converting "C" -> "F" -> "K" -> "C" reproduces the original Temperature.
+@pytest.mark.parametrize("start_value", [-40, 25, 100])
+def test_round_trip_conversions(start_value):
+    temp_c = Temperature(start_value, "C")
+
+    temp_f = temp_c.convert_to("F")
+    temp_k = temp_f.convert_to("K")
+    temp_c_again = temp_k.convert_to("C")
+
+    assert temp_c_again == temp_c
+
+
+# 5. Cross-unit comparisons: Equality and ordering (<, <=, >, >=) across mixed units.
