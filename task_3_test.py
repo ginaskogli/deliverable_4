@@ -1,6 +1,4 @@
-
 from task_2_fractions import Fraction
-
 
 def test__eq__() -> None:
     assert Fraction(1, 2) == Fraction(2, 4)
@@ -31,4 +29,3 @@ def test__mul__() -> None:
 
 def test__truediv__() -> None:
     assert Fraction(1, 2) / Fraction(4, 2) == Fraction(1, 4)
-
