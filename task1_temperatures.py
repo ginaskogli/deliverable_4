@@ -38,6 +38,16 @@ class Temperature:
         if self.to_kelvin() < -self.tolerance:
             raise ValueError("Temperature cannot be below absolute zero")
 
+    @property
+    def value(self) -> float:
+        """Return the temperature value, as a read only atribute."""
+        return self._value
+
+    @property
+    def unit(self) -> str:
+        """Return the temperature unit, as a read only atribute."""
+        return self._unit
+
     def to_celsius(self) -> float:
         """Converts temperature to Celsius.
 
@@ -247,6 +257,7 @@ class Temperature:
 
         # Is self greater than or equal to the other
         return self_kelvin >= other_kelvin
+
 
 temp1 = Temperature(0, "C")
 temp2 = Temperature(32, "F")
